@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaskMaster - Entrar & Registrar</title>
+    
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/auth.css">
+</head>
+<body>
+
+    <div class="left-panel">
+        <div class="decorative-circle"></div>
+        <div class="brand-content">
+            <h1>Gerencie suas<br>Tarefas facilmente.</h1>
+            <p>Otimize seu fluxo de trabalho diário e aumente sua produtividade com nosso espaço de trabalho organizado.</p>
+        </div>
+    </div>
+
+    <div class="right-panel">
+        <div class="form-container">
+            
+            <div class="form-header">
+                <h2 id="header-title">Bem-vindo de volta!</h2>
+                <p id="header-desc">Por favor, insira seus dados para entrar.</p>
+            </div>
+
+            <div class="tabs-container">
+                <button class="tab-btn active" id="tab-login">Login</button>
+                <button class="tab-btn" id="tab-register">Registrar</button>
+            </div>
+
+            <div id="login-form" class="form-content active">
+                <form id="form-login-api">
+                    <div class="input-group">
+                        <label for="login-email">E-mail</label>
+                        <input type="email" id="login-email" placeholder="Digite seu e-mail" required>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="login-password">Senha</label>
+                        <input type="password" id="login-password" placeholder="Digite sua senha" required>
+                    </div>
+
+                    <div class="extra-links">
+                        <label class="remember-me">
+                            <input type="checkbox" id="remember-checkbox"> Lembrar de mim
+                        </label>
+                        <a href="#" class="link-blue">Esqueceu a senha?</a>
+                    </div>
+
+                    <p id="login-error-msg" style="color: red; font-size: 0.9rem; display: none; margin-top: 10px;"></p>
+
+                    <button type="submit" class="btn-action" id="btn-sign-in">Entrar</button>
+                </form>
+            </div>
+
+            <div id="register-form" class="form-content">
+                <form id="form-register-api">
+                    <div class="input-group">
+                        <label for="reg-name">Nome Completo</label>
+                        <input type="text" id="reg-name" placeholder="João da Silva" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="reg-email">E-mail</label>
+                        <input type="email" id="reg-email" placeholder="Digite seu e-mail" required>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="reg-password">Senha</label>
+                        <input type="password" id="reg-password" placeholder="Crie uma senha" required>
+                    </div>
+
+                    <button type="submit" class="btn-action" id="btn-create-account">Criar Conta</button>
+                    
+                    <div class="login-redirect">
+                        Já tem uma conta? <a href="#" class="link-blue" id="link-to-login">Fazer login</a>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+</body>
+</html>
