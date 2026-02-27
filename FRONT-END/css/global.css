@@ -16,3 +16,532 @@ body {
     display: flex; /* Cria o layout lado a lado */
     overflow: hidden; /* Remove barras de rolagem */
 }
+
+/* ============================================================
+   RESPONSIVIDADE TASKMASTER - MOBILE & TABLET
+   ============================================================ */
+
+/* --- TABLETS E LAPTOPS PEQUENOS (Abaixo de 1024px) --- */
+@media (max-width: 1024px) {
+    .left-panel {
+        padding: 40px;
+    }
+
+    .brand-content h1 {
+        font-size: 2.8rem;
+    }
+
+    .sidebar {
+        width: 240px;
+        padding: 30px 20px;
+    }
+
+    .main-content {
+        padding: 30px;
+    }
+}
+
+/* --- TABLETS PORTRAIT (Abaixo de 768px) --- */
+@media (max-width: 768px) {
+    /* Login & Register */
+    body {
+        flex-direction: column;
+        overflow-y: auto;
+    }
+
+    .left-panel, .right-panel {
+        width: 100%;
+        height: auto;
+    }
+
+    .left-panel {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 50px;
+        padding: 60px 40px;
+        text-align: center;
+    }
+
+    .brand-content p {
+        margin: 0 auto;
+    }
+
+    .right-panel {
+        padding: 40px 20px;
+    }
+
+    /* Dashboard Layout */
+    .sidebar {
+        width: 100%;
+        height: auto;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 30px;
+        border-bottom-left-radius: 30px;
+        padding: 20px;
+    }
+
+    .logo-area {
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .menu-list {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .menu-item {
+        margin-bottom: 0;
+    }
+
+    .menu-link {
+        padding: 10px 15px;
+        font-size: 0.9rem;
+    }
+
+    .sidebar-footer {
+        display: none; /* Esconde o rodapé da sidebar no mobile para ganhar espaço */
+    }
+
+    /* Header do Dashboard */
+    .dashboard-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 20px;
+    }
+
+    /* Cards de Estatística */
+    .dashboard-cards {
+        flex-direction: column;
+    }
+
+    .stat-card {
+        padding: 20px;
+    }
+
+    /* Formulário de Nova Tarefa */
+    .pai-datas {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+/* --- SMARTPHONES (Abaixo de 480px) --- */
+@media (max-width: 480px) {
+    .brand-content h1 {
+        font-size: 1.2rem;
+    }
+
+    .page-title h1 {
+        font-size: 1.6rem;
+    }
+
+    /* Barra de ferramentas (Filtro) */
+    .toolbar {
+        flex-direction: column;
+        padding: 20px;
+    }
+
+    .filter-select {
+        width: 100%;
+        min-width: unset;
+    }
+
+    /* Linha da Tarefa */
+    .task-row {
+        padding: 15px 0;
+        border-bottom: 1px solid #585757;
+    }
+
+    .task-content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .task-actions-area {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .user-profile {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .btn-action {
+        padding: 15px;
+        font-size: 1rem;
+    }
+}
+/* ============================================================
+   RESPONSIVIDADE: MODAL DE NAVEGAÇÃO MOBILE
+   ============================================================ */
+
+@media (max-width: 768px) {
+    /* 1. Transforma a Sidebar num Modal Pequeno */
+    .sidebar {
+        position: fixed;
+        top: 85px; /* Aparece logo abaixo do header */
+        left: 20px;
+        width: 220px; /* Largura reduzida para parecer um modal */
+        height: auto; /* Altura ajustada ao conteúdo */
+        max-height: 400px;
+        padding: 20px;
+        border-radius: 20px; /* Cantos arredondados em todos os lados */
+        z-index: 1000;
+        
+        /* Efeito de Esconder (Modal Invisível) */
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px) scale(0.95);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        pointer-events: none;
+    }
+
+    /* Quando o modal está ativo */
+    .sidebar.mobile-active {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0) scale(1);
+        pointer-events: auto;
+        box-shadow: 0 15px 35px rgba(30, 58, 138, 0.25);
+    }
+
+    /* 2. Ajustes Visuais Internos do Modal */
+    .logo-area {
+        display: none; /* Esconde o logo dentro do modal para poupar espaço */
+    }
+
+    .menu-link {
+        padding: 12px 15px;
+        font-size: 0.9rem;
+    }
+
+    .sidebar-footer {
+        display: none;
+    }
+
+    /* 3. Header e Hambúrguer */
+    .main-content {
+        padding: 20px;
+    }
+
+    .header-left {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .menu-toggle {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 28px;
+        height: 18px;
+        cursor: pointer;
+    }
+
+    .menu-toggle span {
+        display: block;
+        height: 3px;
+        width: 100%;
+        background-color: #1E3A8A;
+        border-radius: 10px;
+        transition: 0.3s;
+    }
+
+    /* Transformação para o ícone de fechar (X) */
+    .menu-toggle.open span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+    .menu-toggle.open span:nth-child(2) { opacity: 0; }
+    .menu-toggle.open span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
+}
+/* ============================================================
+   RESPONSIVIDADE TASKMASTER - CONSOLIDADO
+   ============================================================ */
+
+/* --- TABLETS E LAPTOPS PEQUENOS (Abaixo de 1024px) --- */
+@media (max-width: 1024px) {
+    .left-panel { padding: 40px; }
+    .brand-content h1 { font-size: 2.8rem; }
+    .sidebar { width: 240px; padding: 30px 20px; }
+    .main-content { padding: 30px; }
+}
+
+/* --- DISPOSITIVOS MOBILE (Abaixo de 768px) --- */
+@media (max-width: 768px) {
+    /* 1. Login & Registro em Coluna */
+
+    body { flex-direction: column; overflow-y: auto; }
+    .left-panel, .right-panel { width: 100%; height: auto; }
+    .left-panel {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 50px;
+        padding: 60px 40px;
+        text-align: center;
+    }
+    .brand-content p { margin: 0 auto; }
+
+    /* 2. Sidebar transformada em Modal Pequeno */
+    .sidebar {
+        position: fixed;
+        top: 100px; /* Espaço para o cabeçalho em coluna */
+        left: 50%;
+        transform: translateX(-50%) translateY(-20px);
+        width: 90%;
+        max-width: 300px;
+        height: auto;
+        padding: 40px 20px 20px 20px;
+        border-radius: 20px;
+        z-index: 1000;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+        box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+    }
+
+    .sidebar.mobile-active {
+        opacity: 1;
+        visibility: visible;
+        transform: translateX(-50%) translateY(0);
+    }
+
+    .sidebar .logo-area, .sidebar-footer { display: none; }
+
+    /* 3. Botão de Fechar dentro do Modal */
+    .close-modal {
+        display: block;
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        font-size: 2rem;
+        color: #ea1a1a;
+        cursor: pointer;
+        line-height: 1;
+    }
+
+    /* 4. Cabeçalho em Coluna (Pedido) */
+    .dashboard-header {
+        flex-direction: column; /* Transforma em coluna */
+        text-align: center;
+        gap: 15px;
+        padding: 10px;
+    }
+
+    .header-left {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .page-title h1 {
+        font-size: 1.3rem;
+        white-space: nowrap;
+    }
+
+    /* 5. Ícone Hambúrguer */
+    .menu-toggle {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 30px;
+        height: 20px;
+        cursor: pointer;
+    }
+
+    .menu-toggle span {
+        height: 3px;
+        width: 100%;
+        background-color: #1E3A8A;
+        border-radius: 10px;
+        transition: 0.3s;
+    }
+
+    .menu-toggle.open span:nth-child(1) { transform: translateY(8.5px) rotate(45deg); }
+    .menu-toggle.open span:nth-child(2) { opacity: 0; }
+    .menu-toggle.open span:nth-child(3) { transform: translateY(-8.5px) rotate(-45deg); }
+
+    /* 6. Outros Ajustes de UI */
+    .dashboard-cards { flex-direction: column; gap: 15px; }
+    .pai-datas { flex-direction: column; gap: 10px; }
+}
+
+/* --- CELULARES PEQUENOS (Abaixo de 480px) --- */
+@media (max-width: 480px) {
+    .brand-content h1 { font-size: 1.8rem; }
+    
+    .user-profile {
+        width: 100%;
+        justify-content: center;
+        padding: 5px;
+    }
+
+    .user-name { display: none; } /* Deixa apenas o avatar para limpar o topo */
+
+    .toolbar {
+        flex-direction: column;
+        padding: 15px;
+    }
+
+    .filter-select { width: 100%; }
+
+    .task-content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .btn-action { padding: 15px; font-size: 1rem; }
+}
+
+/* Esconder botão de fechar no Desktop */
+@media (min-width: 769px) {
+
+}
+/* ============================================================
+   RESPONSIVIDADE TASKMASTER - VERSÃO FINAL OTIMIZADA
+   ============================================================ */
+
+/* --- AJUSTES PARA MOBILE E TABLETS (Abaixo de 768px) --- */
+@media (max-width: 768px) {
+    
+    /* 1. TELA DE LOGIN & REGISTRO (AUTH) */
+    body {
+        flex-direction: column !important; /* Empilhamento vertical obrigatório */
+        height: auto;
+        overflow-y: auto;
+    }
+
+    .left-panel {
+        width: 100% !important;
+        height: auto;
+        /* Reduzido para o formulário subir na tela */
+        padding: 30px 20px !important; 
+        text-align: center;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 30px;
+        border-bottom-left-radius: 30px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .brand-content h1 {
+        /* Fonte reduzida para não esmagar o layout */
+        font-size: 1.5rem !important; 
+        margin-bottom: 10px;
+    }
+
+    .brand-content p {
+        /* Texto de apoio menor e centralizado */
+        font-size: 0.85rem !important; 
+        max-width: 280px;
+        margin: 0 auto;
+        line-height: 1.4;
+    }
+
+    .right-panel {
+        width: 100% !important;
+        /* Espaço otimizado para o formulário aparecer antes */
+        padding: 25px 20px !important; 
+    }
+
+    /* 2. CABEÇALHO DO DASHBOARD (COLUNA) */
+    .dashboard-header {
+        flex-direction: column !important; /* Alinhamento vertical */
+        text-align: center;
+        gap: 15px;
+        padding: 15px 10px;
+    }
+
+    .header-left {
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .page-title h1 {
+        /* Diminuído para manter o dia em uma linha só */
+        font-size: 1.1rem !important; 
+        white-space: nowrap;
+        line-height: 1.2;
+    }
+
+    #task-counter {
+        font-size: 0.8rem !important;
+    }
+
+    /* 3. MODAL DE NAVEGAÇÃO MOBILE */
+    .sidebar {
+        position: fixed;
+        top: 160px; /* Ajustado para a nova altura do cabeçalho em coluna */
+        left: 50%;
+        transform: translateX(-50%) translateY(-20px);
+        width: 85%;
+        max-width: 260px;
+        padding: 35px 20px 20px 20px;
+        border-radius: 20px;
+        z-index: 1000;
+        opacity: 0;
+        visibility: hidden;
+        transition: 0.3s ease;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    }
+
+    .sidebar.mobile-active {
+        opacity: 1;
+        visibility: visible;
+        transform: translateX(-50%) translateY(0);
+    }
+
+    .close-modal {
+        display: block !important;
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        font-size: 1.8rem;
+        color: #ea1a1a; /* Vermelho solicitado */
+    }
+
+    /* 4. CARDS E LISTAS */
+    .dashboard-cards {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .stat-card {
+        padding: 15px 20px;
+    }
+
+    .pai-datas {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+/* --- AJUSTES PARA CELULARES PEQUENOS (Abaixo de 480px) --- */
+@media (max-width: 480px) {
+    .brand-content h1 { font-size: 1.3rem !important; }
+    
+    .user-profile {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .user-name {
+        display: none; /* Mantém apenas o avatar para limpar o topo */
+    }
+
+    .task-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .task-actions-area {
+        width: 100%;
+        justify-content: space-between;
+        border-top: 1px solid #eee;
+        padding-top: 10px;
+    }
+}
