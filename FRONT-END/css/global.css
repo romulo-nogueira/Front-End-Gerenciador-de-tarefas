@@ -494,14 +494,6 @@ body {
         transform: translateX(-50%) translateY(0);
     }
 
-    .close-modal {
-        display: block !important;
-        position: absolute;
-        top: 10px;
-        right: 15px;
-        font-size: 1.8rem;
-        color: #ea1a1a; /* Vermelho solicitado */
-    }
 
     /* 4. CARDS E LISTAS */
     .dashboard-cards {

@@ -16,7 +16,7 @@ if (dateElement) {
     dateElement.innerText = formattedDate; 
 }
     // Simulação de usuário logado
-    const currentUser = JSON.parse(localStorage.getItem('currentUser')) || { name: "Clayver", id_user: 101 };
+    const currentUser = JSON.parse(localStorage.getItem('currentUser')) || { name: "ROMULO", id_user: 101 };
 
     function loadUserData() {
         const nameDisplay = document.getElementById('profile-name');
