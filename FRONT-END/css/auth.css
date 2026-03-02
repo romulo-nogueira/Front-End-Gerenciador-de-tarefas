@@ -205,6 +205,12 @@ input[type="password"]:focus {
     display: block; /* Visível quando tem a classe active */
 }
 
+.error-message {
+  color: red;
+  font-size: 14px;
+  margin-top: 8px;
+}
+
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
