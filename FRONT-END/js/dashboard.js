@@ -145,7 +145,7 @@ function cadastroTasks() {
         const data_entrega = document.getElementById('task-date-end').value;
         const categoria = document.getElementById('task-category').value;
 
-        // Chama função que faz POST no backend
+       /*  // Chama função que faz POST no backend
         const task = await criarTask(title, description, categoria, data_inicio, data_entrega);
 
         const msg = document.getElementById('task-msg') || document.createElement('div');
@@ -164,7 +164,7 @@ function cadastroTasks() {
         } else {
             msg.style.color = 'red';
             msg.textContent = 'Erro ao criar task.';
-        }
+        } */
     });
 }
 
