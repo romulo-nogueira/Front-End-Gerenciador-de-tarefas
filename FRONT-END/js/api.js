@@ -45,13 +45,23 @@ export async function apiRequest(url, options = {}) {
 }
 
 export function logout() {
+    // Remove tokens
     localStorage.removeItem("access_token");
     localStorage.removeItem("refresh_token");
-    window.location.href = "index.html";
+
+    // Limpa qualquer outro dado sensível
+    localStorage.clear();
+    sessionStorage.clear();
+
+    // Impede voltar para página protegida
+    window.location.replace("index.html");
 }
 
 export async function renderizarTasks() {
         const token = localStorage.getItem("access_token");
+        if(!token){
+            window.location.href = "./index.html";
+        }
     try {
         const response = await fetch(`${API_BASE_URL}/api/tasks/`, {
                 headers: {
