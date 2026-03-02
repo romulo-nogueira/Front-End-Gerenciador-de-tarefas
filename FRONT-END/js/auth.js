@@ -1,3 +1,5 @@
+import { login } from './api.js';
+
 document.addEventListener('DOMContentLoaded', () => {
 
 
@@ -15,6 +17,9 @@ const headerTitle = document.getElementById('header-title');
 const headerDesc = document.getElementById('header-desc');
 
 const linkToLogin = document.getElementById('link-to-login');
+
+const formLogin = document.getElementById('login-form');
+const errorMsg = document.getElementById('login-error');
 
 
 // ===============================
@@ -44,7 +49,7 @@ function switchMode(mode) {
 
 
 // ===============================
-// 🖱️ EVENTOS
+// 🖱️ EVENTOS UI
 // ===============================
 
 tabLogin?.addEventListener('click', () => switchMode('login'));
@@ -54,5 +59,55 @@ linkToLogin?.addEventListener('click', (e) => {
     e.preventDefault();
     switchMode('login');
 });
+
+
+// ===============================
+// 🔐 LOGIN
+// ===============================
+
+console.log("Form encontrado:", formLogin);
+
+formLogin?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const email = document.getElementById('login-email').value;
+    const password = document.getElementById('login-password').value;
+
+    if (errorMsg) errorMsg.innerText = "";
+
+    try {
+        await login(email, password);
+
+        localStorage.setItem("user_email", email);
+        // ✅ Redirecionamento correto
+        window.location.href = "./dashboard.html";
+
+    } catch (error) {
+        if (errorMsg) {
+            errorMsg.innerText = "Email ou senha inválidos.";
+        }
+    }
+});
+
+function cadastroUsers(){
+const form = document.getElementById('register-form');
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const username = document.getElementById('reg-name').value;
+        const email = document.getElementById('reg-email').value;
+        const password = document.getElementById('reg-password').value;
+
+        const usuario = await cadastrarUser(username, email, password);
+
+        if (usuario) {
+            alert('Usuário cadastrado com sucesso!');
+            form.reset();
+        } else {
+            alert('Erro ao cadastrar usuário.');
+        }
+    });
+}
+
+cadastroUsers();
 
 });

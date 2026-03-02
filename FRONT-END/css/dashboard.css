@@ -303,6 +303,22 @@ body {
     transition: 0.2s;
 }
 
+#out {
+    align-self: center;
+    border: none;
+    color: #ff4d4d;
+    padding: 5px;
+    width: 65px;
+    border-radius: 10px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: 0.2s;
+}
+#out:hover {
+    transform: scale(1.2);
+    color: #ea1a1a;
+}
+
 .btn-delete:hover {
     transform: scale(1.2);
     color: #ea1a1a;
@@ -378,4 +394,90 @@ body {
 .btn-action:active {
     transform: translateY(0); /* Volta ao normal ao clicar */
 }
+
+/* Fundo escuro */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    display: none;
+    justify-content: center;
+    align-items: center;
+
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Caixa branca */
+.div_sair {
+    background: white;
+    padding: 30px 40px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    width: 300px;
+}
+
+/* Título */
+.div_sair h2 {
+    margin-bottom: 20px;
+    font-size: 18px;
+    color: #333;
+}
+
+/* Container dos botões */
+.botoes {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+/* Botão Sim */
+.sair_sim {
+    flex: 1;
+    background-color: #d9534f;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.sair_sim:hover {
+    background-color: #c9302c;
+}
+
+/* Botão Voltar */
+.sair_nao {
+    flex: 1;
+    background-color: #5bc0de;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.sair_nao:hover {
+    background-color: #31b0d5;
+}
+
+table {
+            width: 80%;
+            border-collapse: collapse;
+            margin: 20px auto;
+        }
+        th, td {
+            border: 1px solid #1e3b8a98;
+            padding: 8px 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #1E3A8A;
+            color: white;
+        }
 

@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="css/dashboard.css">
 </head>
 <body>
-    <aside class="sidebar">
+    <aside id="aside" class="sidebar">
         <div class="logo-area">TaskMaster</div>
         <div class="close-modal" id="close-modal-btn">&times;</div>
         <ul class="menu-list">
@@ -17,6 +17,8 @@
             <li class="menu-item"><a href="#" class="menu-link" data-target="view-new-task"><span>+ Nova Tarefa</span></a></li>
             
         </ul>
+
+        <button id="out">SAIR</button>
     </aside>
 
     <main class="main-content">
@@ -35,7 +37,7 @@
     
     <div class="user-profile">
         <span class="user-name" id="profile-name">Augusto</span> 
-        <div class="avatar" id="profile-avatar">A</div> 
+        <div class="avatar" id="profile-avatar"><img src="" alt="perfil"></div> 
     </div>
 </header>
 
@@ -65,7 +67,23 @@
                         <option value="fun">CONCLUIDO</option>
                     </select>
                 </div>
-                <div class="task-list-container" id="task-list"></div>
+                <div class="task-list-container" id="task-list">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Descrição</th>
+                                <th>Responsavel</th>
+                                <th>Data Início</th>
+                                <th>Data Entrega</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tasks-body">
+                            <!-- As tasks vão aparecer aqui -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
@@ -97,8 +115,8 @@
                     <div class="input-group">
                         <label for="task-category">Status Inicial</label>
                         <select id="task-category">
-                            <option value="work">EM ANDAMENTO</option>
-                            <option value="fun">CONCLUIDO</option>
+                            <option value="pendente">Pendente</option>
+                            <option value="concluido">Concluido</option>
                         </select>
                     </div>
 
@@ -106,8 +124,18 @@
                 </form>
             </div>
         </div>
+
+        <div id="divout" class="overlay">
+    <div class="div_sair">
+        <h2>Você tem certeza disso?</h2>
+        <div class="botoes">
+            <button id="ctzout" class="sair_sim">Sim</button>
+            <button id="backout" class="sair_nao">Voltar</button>
+        </div>
+    </div>
+</div>
     </main>
 
-    <script src="js/dashboard.js"></script>
+    <script type="module" src="js/dashboard.js"></script>
 </body>
 </html>
