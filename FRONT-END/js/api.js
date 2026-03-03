@@ -116,9 +116,9 @@ export async function criarTask(title, description, categoria, data_inicio, data
     }
 }
 
-/* export async function cadastrarUser(username, email, password) {
+export async function cadastrarUser(username, email, password) {
     try {
-        const response = await fetch(`${API_BASE_URL}/`, {
+        const response = await fetch(`${API_BASE_URL}/api/register/`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -137,4 +137,4 @@ export async function criarTask(title, description, categoria, data_inicio, data
         console.error(error);
         return null;
     }
-} */
+}

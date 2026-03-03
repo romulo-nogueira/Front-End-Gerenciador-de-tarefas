@@ -145,7 +145,7 @@ function cadastroTasks() {
         const data_entrega = document.getElementById('task-date-end').value;
         const categoria = document.getElementById('task-category').value;
 
-       /*  // Chama função que faz POST no backend
+       // Chama função que faz POST no backend
         const task = await criarTask(title, description, categoria, data_inicio, data_entrega);
 
         const msg = document.getElementById('task-msg') || document.createElement('div');
@@ -154,17 +154,10 @@ function cadastroTasks() {
         if (!document.getElementById('task-msg')) form.appendChild(msg);
 
         if (task) {
-            msg.style.color = 'green';
-            msg.textContent = 'Task criada com sucesso!';
+            alert('Tarefa criada com sucesso!');
             form.reset();
-
-            // Atualiza lista de tasks no console ou tabela
-            const tasksResponse = await renderizarTasks();
-            console.log("Tasks atualizadas:", tasksResponse.results);
-        } else {
-            msg.style.color = 'red';
-            msg.textContent = 'Erro ao criar task.';
-        } */
+            window.location.reload();
+        }
     });
 }
 
