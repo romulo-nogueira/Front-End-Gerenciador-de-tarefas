@@ -1,4 +1,4 @@
-import { login } from './api.js';
+import { login, cadastrarUser } from './api.js';
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -90,7 +90,7 @@ formLogin?.addEventListener('submit', async (e) => {
 });
 
 function cadastroUsers(){
-const form = document.getElementById('register-form');
+const form = document.getElementById('form-register-api');
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
         const username = document.getElementById('reg-name').value;
@@ -102,8 +102,10 @@ const form = document.getElementById('register-form');
         if (usuario) {
             alert('Usuário cadastrado com sucesso!');
             form.reset();
+            window.location.reload();
         } else {
             alert('Erro ao cadastrar usuário.');
+            console.log(`Usuário: ${usuario}`)
         }
     });
 }
