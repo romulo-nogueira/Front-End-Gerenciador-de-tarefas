@@ -338,10 +338,19 @@ if (user && email) {
             alert('Tarefa atualizada com sucesso!');
             taskEmEdicao = null;
             document.querySelector('[data-target="view-tasks"]').click();
+            form.reset();
+            carregarTasks();
+            window.location.reload();
 
         }
 
     } else {
+
+        if (data_inicio > data_entrega){
+            alert("A data de início não pode ser posterior à data de entrega.");
+            return;
+        }
+
         // ➕ CRIAR
         const task = await criarTask(
             title,
@@ -353,11 +362,9 @@ if (user && email) {
 
         if (task) {
             alert('Tarefa criada com sucesso!');
+            window.location.reload();
         }
     }
-
-    form.reset();
-    carregarTasks();
 });
 
 });
