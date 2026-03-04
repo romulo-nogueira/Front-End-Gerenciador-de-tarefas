@@ -217,7 +217,7 @@ if (user && email) {
                     <p><strong>Responsável:</strong> ${email}</p>
                     <p><strong>Início:</strong> ${task.data_inicio ? new Date(task.data_inicio).toLocaleDateString() : ''}</p>
                     <p><strong>Entrega:</strong> ${task.data_entrega ? new Date(task.data_entrega).toLocaleDateString() : ''}</p>
-                    <div style="margin-top:10px;">
+                    <div class="card-actions" style="margin-top:10px;">
                         <button class="edit-btn" data-id="${task.id}">Editar</button>
                         <button class="delete-btn" data-id="${task.id}">Excluir</button>
                     </div>
