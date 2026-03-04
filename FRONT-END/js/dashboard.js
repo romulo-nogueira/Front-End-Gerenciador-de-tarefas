@@ -1,6 +1,8 @@
-import { logout, renderizarTasks, criarTask, atualizarStatusTask } from './api.js';
+import { logout, renderizarTasks, criarTask, atualizarStatusTask, atualizarTask, deletarTask } from './api.js';
 
 document.addEventListener('DOMContentLoaded', () => {
+
+    let taskEmEdicao = null;
 
     // ===============================
     // 📅 DATA DINÂMICA
@@ -184,7 +186,7 @@ if (user && email) {
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
                     <td>
-                        <input id="status-${task.id}" style="width: 20px; height: 20px;" 
+                        <input data-id="${task.id}" style="width: 20px; height: 20px;" 
                         type="checkbox" ${task.categoria === 'concluido' ? 'checked' : ''}>
                     </td>
                     <td>${task.title}</td>
@@ -208,13 +210,17 @@ if (user && email) {
                 card.innerHTML = `
                     <div style="display: flex; justify-content: space-between; align-items: center;">
                         <h3>${task.title}</h3>
-                        <input id="status-${task.id}" style="width: 20px; height: 20px;" 
+                        <input data-id="${task.id}" style="width: 20px; height: 20px;" 
                         type="checkbox" ${task.categoria === 'concluido' ? 'checked' : ''}>
                     </div>
                     <p>${task.description}</p>
                     <p><strong>Responsável:</strong> ${email}</p>
                     <p><strong>Início:</strong> ${task.data_inicio ? new Date(task.data_inicio).toLocaleDateString() : ''}</p>
                     <p><strong>Entrega:</strong> ${task.data_entrega ? new Date(task.data_entrega).toLocaleDateString() : ''}</p>
+                    <div style="margin-top:10px;">
+                        <button class="edit-btn" data-id="${task.id}">Editar</button>
+                        <button class="delete-btn" data-id="${task.id}">Excluir</button>
+                    </div>
                     <div class="card-footer ${task.categoria === 'pendente' ? 'status-pendente' : 'status-concluido'}">
                         ${task.categoria.toUpperCase()}
                     </div>
@@ -227,10 +233,10 @@ if (user && email) {
         // 🔥 EVENTO CHECKBOX (ADICIONADO)
         // ===============================
 
-        document.querySelectorAll('input[type="checkbox"][id^="status-"]').forEach(checkbox => {
+        document.querySelectorAll('input[type="checkbox"][data-id]').forEach(checkbox => {
             checkbox.addEventListener("change", async function () {
 
-                const taskId = this.id.replace("status-", "");
+                const taskId = this.dataset.id;
                 const novaCategoria = this.checked ? "concluido" : "pendente";
 
                 try {
@@ -243,6 +249,53 @@ if (user && email) {
 
             });
         });
+
+        // ===============================
+        // 🗑️ EVENTO EXCLUIR
+        // ===============================
+
+        document.querySelectorAll('.delete-btn').forEach(button => {
+        button.addEventListener('click', async function () {
+
+        const taskId = this.dataset.id;
+
+        const confirmar = confirm("Tem certeza que deseja excluir essa tarefa?");
+        if (!confirmar) return;
+
+        const resultado = await deletarTask(taskId);
+
+        if (resultado) {
+            carregarTasks();
+        } else {
+            alert("Erro ao excluir tarefa");
+        }
+
+            });
+        });
+
+        // ===============================
+        // ✏️ EVENTO EDITAR
+        // ===============================
+
+        document.querySelectorAll('.edit-btn').forEach(button => {
+        button.addEventListener('click', function () {
+
+        const taskId = this.dataset.id;
+        const task = tasks.find(t => t.id == taskId);
+
+        if (!task) return;
+
+        taskEmEdicao = taskId;
+
+        document.getElementById('task-title-input').value = task.title;
+        document.getElementById('task-desc-input').value = task.description;
+        document.getElementById('task-date-start').value = task.data_inicio || "";
+        document.getElementById('task-date-end').value = task.data_entrega || "";
+        document.getElementById('task-category').value = task.categoria;
+
+        document.querySelector('[data-target="view-new-task"]').click();
+    });
+});
     }
 
     filter?.addEventListener("change", carregarTasks);
@@ -256,21 +309,49 @@ if (user && email) {
     const form = document.getElementById('form-new-task');
 
     form?.addEventListener('submit', async (e) => {
-        e.preventDefault();
+    e.preventDefault();
 
-        const title = document.getElementById('task-title-input').value;
-        const description = document.getElementById('task-desc-input').value;
-        const data_inicio = document.getElementById('task-date-start').value;
-        const data_entrega = document.getElementById('task-date-end').value;
-        const categoria = document.getElementById('task-category').value;
+    const title = document.getElementById('task-title-input').value;
+    const description = document.getElementById('task-desc-input').value;
+    const data_inicio = document.getElementById('task-date-start').value;
+    const data_entrega = document.getElementById('task-date-end').value;
+    const categoria = document.getElementById('task-category').value;
 
-        const task = await criarTask(title, description, categoria, data_inicio, data_entrega);
+    if (taskEmEdicao) {
+        // 🔥 ATUALIZAR
+        const atualizado = await atualizarTask(
+            taskEmEdicao,
+            title,
+            description,
+            categoria,
+            data_inicio,
+            data_entrega
+        );
+
+        if (atualizado) {
+            alert('Tarefa atualizada com sucesso!');
+            taskEmEdicao = null;
+            document.querySelector('[data-target="view-tasks"]').click();
+
+        }
+
+    } else {
+        // ➕ CRIAR
+        const task = await criarTask(
+            title,
+            description,
+            categoria,
+            data_inicio,
+            data_entrega
+        );
 
         if (task) {
             alert('Tarefa criada com sucesso!');
-            form.reset();
-            window.location.reload()
         }
-    });
+    }
+
+    form.reset();
+    carregarTasks();
+});
 
 });
