@@ -155,3 +155,73 @@ export async function atualizarStatusTask(taskId, categoria) {
 
     return await response.json();
 }
+
+// Atualizar Tarefa
+
+export async function atualizarTask(
+  id,
+  title,
+  description,
+  categoria,
+  data_inicio,
+  data_entrega,
+  status = "pendente",
+) {
+  const token = localStorage.getItem("access_token");
+
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/tasks/${id}/`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        title,
+        description,
+        categoria,
+        data_inicio,
+        data_entrega,
+        status,
+      }),
+    });
+
+    if (!response.ok) {
+      const errData = await response.json();
+      console.error("Erro ao atualizar task:", errData);
+      return null;
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
+
+// Deletar Tarefa
+
+export async function deletarTask(id) {
+  const token = localStorage.getItem("access_token");
+
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/tasks/${id}/`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      const errData = await response.json();
+      console.error("Erro ao deletar task:", errData);
+      return null;
+    }
+
+    return { success: true };
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
