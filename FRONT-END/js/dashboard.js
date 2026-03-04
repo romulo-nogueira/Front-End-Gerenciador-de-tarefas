@@ -1,4 +1,4 @@
-import { logout, renderizarTasks, criarTask } from './api.js';
+import { logout, renderizarTasks, criarTask, atualizarStatusTask } from './api.js';
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -19,16 +19,26 @@ document.addEventListener('DOMContentLoaded', () => {
         dateElement.innerText = formattedDate;
     }
 
-    // ===============================
-    // 👤 USUÁRIO
-    // ===============================
+// ===============================
+// 👤 USUÁRIO
+// ===============================
 
-    const email = localStorage.getItem("user_email");
-    const user = document.getElementById('profile-name');
+const email = localStorage.getItem("user_email");
+const user = document.getElementById('profile-name');
+const avatar = document.getElementById('profile-avatar');
 
-    if (user && email) {
-        user.textContent = email;
+if (user && email) {
+    user.textContent = email;
+
+    if (avatar) {
+        const nome = email.trim();
+
+        // Pega primeira letra
+        const inicial = nome.charAt(0).toUpperCase();
+
+        avatar.textContent = inicial;
     }
+}
 
     // ===============================
     // 🧭 NAVEGAÇÃO SPA
@@ -81,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ===============================
-    // 🚪 MODAL LOGOUT (CORRIGIDO)
+    // 🚪 MODAL LOGOUT
     // ===============================
 
     const outBtn = document.getElementById('out');
@@ -133,94 +143,108 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function carregarTasks() {
 
-    const response = await renderizarTasks();
-    const tasks = response?.results || [];
+        const response = await renderizarTasks();
+        const tasks = response?.results || [];
 
-    tbody.innerHTML = '';
-    cardContainer.innerHTML = '';
+        tbody.innerHTML = '';
+        cardContainer.innerHTML = '';
 
-    const filtroAtual = filter?.value || "all";
+        const filtroAtual = filter?.value || "all";
 
-    // ===============================
-    // 📊 CONTADORES
-    // ===============================
+        // ===============================
+        // 📊 CONTADORES
+        // ===============================
 
-    let total = 0;
-    let pendentes = 0;
-    let concluidas = 0;
+        let total = 0;
+        let pendentes = 0;
+        let concluidas = 0;
 
-    tasks.forEach(task => {
-        total++;
+        tasks.forEach(task => {
+            total++;
 
-        if (task.categoria === "pendente") {
-            pendentes++;
-        }
+            if (task.categoria === "pendente") pendentes++;
+            if (task.categoria === "concluido") concluidas++;
+        });
 
-        if (task.categoria === "concluido") {
-            concluidas++;
-        }
-    });
+        document.getElementById("stat-total").textContent = total;
+        document.getElementById("stat-pending").textContent = pendentes;
+        document.getElementById("stat-completed").textContent = concluidas;
 
-    // Atualiza Dashboard
-    document.getElementById("stat-total").textContent = total;
-    document.getElementById("stat-pending").textContent = pendentes;
-    document.getElementById("stat-completed").textContent = concluidas;
+        const headerCount = document.getElementById("header-pending-count");
+        if (headerCount) headerCount.textContent = pendentes;
 
-    // Atualiza contador do header
-    const headerCount = document.getElementById("header-pending-count");
-    if (headerCount) {
-        headerCount.textContent = pendentes;
-    }
+        // ===============================
+        // 🎯 FILTRO + RENDERIZAÇÃO
+        // ===============================
 
-    // ===============================
-    // 🎯 FILTRO + RENDERIZAÇÃO
-    // ===============================
+        tasks
+            .filter(task => filtroAtual === "all" || task.categoria === filtroAtual)
+            .forEach(task => {
 
-    tasks
-        .filter(task => filtroAtual === "all" || task.categoria === filtroAtual)
-        .forEach(task => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>
+                        <input id="status-${task.id}" style="width: 20px; height: 20px;" 
+                        type="checkbox" ${task.categoria === 'concluido' ? 'checked' : ''}>
+                    </td>
+                    <td>${task.title}</td>
+                    <td>${task.description}</td>
+                    <td>${email}</td>
+                    <td>${task.data_inicio ? new Date(task.data_inicio).toLocaleDateString() : ''}</td>
+                    <td>${task.data_entrega ? new Date(task.data_entrega).toLocaleDateString() : ''}</td>
+                    <td class="${task.categoria === 'pendente' ? 'status-pendente' : 'status-concluido'}">
+                        ${task.categoria}
+                    </td>
+                    <td>
+                        <button class="edit-btn" data-id="${task.id}">Editar</button> 
+                        <button class="delete-btn" data-id="${task.id}">Excluir</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
 
-            // ---------- LISTA ----------
-            const tr = document.createElement('tr');
-            tr.innerHTML = `
-            <td><input style="width: 20px; height: 20px;" type="checkbox" id="status-${task.id}" ${task.categoria === 'concluido' ? 'checked' : ''}></td>
-                <td>${task.title}</td>
-                <td>${task.description}</td>
-                <td>${email}</td>
-                <td>${task.data_inicio ? new Date(task.data_inicio).toLocaleDateString() : ''}</td>
-                <td>${task.data_entrega ? new Date(task.data_entrega).toLocaleDateString() : ''}</td>
-                <td class="${task.categoria === 'pendente' ? 'status-pendente' : 'status-concluido'}">
-                    ${task.categoria}
-                </td>
-                <td><button class="edit-btn" data-id="${task.id}">Editar</button> <button class="delete-btn" data-id="${task.id}">Excluir</button></td>
-            `;
-            tbody.appendChild(tr);
+                const card = document.createElement('div');
+                card.classList.add('task-card');
 
-            // ---------- QUADRO ----------
-            const card = document.createElement('div');
-            card.classList.add('task-card');
+                card.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <h3>${task.title}</h3>
+                        <input id="status-${task.id}" style="width: 20px; height: 20px;" 
+                        type="checkbox" ${task.categoria === 'concluido' ? 'checked' : ''}>
+                    </div>
+                    <p>${task.description}</p>
+                    <p><strong>Responsável:</strong> ${email}</p>
+                    <p><strong>Início:</strong> ${task.data_inicio ? new Date(task.data_inicio).toLocaleDateString() : ''}</p>
+                    <p><strong>Entrega:</strong> ${task.data_entrega ? new Date(task.data_entrega).toLocaleDateString() : ''}</p>
+                    <div class="card-footer ${task.categoria === 'pendente' ? 'status-pendente' : 'status-concluido'}">
+                        ${task.categoria.toUpperCase()}
+                    </div>
+                `;
 
-            card.innerHTML = `
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <h3>${task.title}</h3>
-                    <input style="width: 20px; height: 20px;" type="checkbox" id="status-${task.id}" ${task.categoria === 'concluido' ? 'checked' : ''}>
-                </div>
-                <p>${task.description}</p>
-                <p><strong>Responsável:</strong> ${email}</p>
-                <p><strong>Início:</strong> ${task.data_inicio ? new Date(task.data_inicio).toLocaleDateString() : ''}</p>
-                <p><strong>Entrega:</strong> ${task.data_entrega ? new Date(task.data_entrega).toLocaleDateString() : ''}</p>
-                <div class="card-footer ${task.categoria === 'pendente' ? 'status-pendente' : 'status-concluido'}">
-                    ${task.categoria.toUpperCase()}
-                </div>
-                <div class="card-actions">
-                    <button class="edit-btn" data-id="${task.id}">Editar</button>
-                    <button class="delete-btn" data-id="${task.id}">Excluir</button>
-                </div>
-            `;
+                cardContainer.appendChild(card);
+            });
 
-            cardContainer.appendChild(card);
+        // ===============================
+        // 🔥 EVENTO CHECKBOX (ADICIONADO)
+        // ===============================
+
+        document.querySelectorAll('input[type="checkbox"][id^="status-"]').forEach(checkbox => {
+            checkbox.addEventListener("change", async function () {
+
+                const taskId = this.id.replace("status-", "");
+                const novaCategoria = this.checked ? "concluido" : "pendente";
+
+                try {
+                    await atualizarStatusTask(taskId, novaCategoria);
+                    carregarTasks();
+                } catch (error) {
+                    alert("Erro ao atualizar status");
+                    this.checked = !this.checked;
+                }
+
+            });
         });
     }
+
     filter?.addEventListener("change", carregarTasks);
 
     carregarTasks();
@@ -245,23 +269,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (task) {
             alert('Tarefa criada com sucesso!');
             form.reset();
-            carregarTasks();
-            window.location.reload();
+            window.location.reload()
         }
     });
-
-    function atualizarPerfil(nomeUsuario) {
-    const profileName = document.getElementById("profile-name");
-    const avatar = document.getElementById("profile-avatar");
-
-    profileName.textContent = nomeUsuario;
-
-    if (nomeUsuario && nomeUsuario.length > 0) {
-        const inicial = nomeUsuario.trim().charAt(0).toUpperCase();
-        avatar.textContent = inicial;
-    }
-}
-
-atualizarPerfil(email);
 
 });
