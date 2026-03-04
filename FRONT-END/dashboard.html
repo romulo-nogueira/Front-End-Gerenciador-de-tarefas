@@ -35,10 +35,10 @@
         </div>
     </div>
     
-    <div class="user-profile">
-        <span class="user-name" id="profile-name">Augusto</span> 
-        <div class="avatar" id="profile-avatar"><img src="" alt="perfil"></div> 
-    </div>
+<div class="user-profile">
+    <span class="user-name" id="profile-name"></span> 
+    <div class="avatar" id="profile-avatar"></div> 
+</div>
 </header>
 
         <div id="view-dashboard" class="view-section">
@@ -61,28 +61,36 @@
         <div id="view-tasks" class="view-section active">
             <div class="tasks-card">
                 <div class="toolbar">
-                    <select class="filter-select" id="task-filter">
-                        <option value="all">Filtro: Todas</option>
-                        <option value="work">EM ANDAMENTO</option>
-                        <option value="fun">CONCLUIDO</option>
-                    </select>
-                </div>
+    <select class="filter-select" id="task-filter">
+        <option value="all">Filtro: Todas</option>
+        <option value="pendente">Pendentes</option>
+        <option value="concluido">Concluídas</option>
+    </select>
+
+    <div class="view-toggle">
+        <button id="btn-list-view" class="toggle-btn active">Lista</button>
+        <button id="btn-card-view" class="toggle-btn">Quadro</button>
+    </div>
+</div>
                 <div class="task-list-container" id="task-list">
                     <table>
                         <thead>
                             <tr>
+                                <th></th>
                                 <th>Nome</th>
                                 <th>Descrição</th>
                                 <th>Responsavel</th>
                                 <th>Data Início</th>
                                 <th>Data Entrega</th>
                                 <th>Status</th>
+                                <th>Ação</th>
                             </tr>
                         </thead>
                         <tbody id="tasks-body">
                             <!-- As tasks vão aparecer aqui -->
                         </tbody>
                     </table>
+                    <div class="card-container" id="card-container"></div>
                 </div>
             </div>
         </div>

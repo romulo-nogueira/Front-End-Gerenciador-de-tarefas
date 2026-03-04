@@ -138,3 +138,20 @@ export async function cadastrarUser(username, email, password) {
         return null;
     }
 }
+
+export async function atualizarStatusTask(taskId, categoria) {
+    const response = await fetch(`${API_BASE_URL}/api/tasks/${taskId}/`, {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${localStorage.getItem("access_token")}`
+        },
+        body: JSON.stringify({ categoria })
+    });
+
+    if (!response.ok) {
+        throw new Error("Erro ao atualizar status");
+    }
+
+    return await response.json();
+}
