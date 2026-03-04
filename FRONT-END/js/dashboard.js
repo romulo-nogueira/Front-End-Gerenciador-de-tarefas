@@ -113,6 +113,12 @@ if (user && email) {
         overlay.style.display = "none";
     });
 
+    window.addEventListener('click', (e) => {
+        if (e.target === overlay) {
+            overlay.style.display = "none";
+        }
+    });
+
     // ===============================
     // 🔄 LISTA / QUADRO
     // ===============================
