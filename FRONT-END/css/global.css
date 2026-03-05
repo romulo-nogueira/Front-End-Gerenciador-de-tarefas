@@ -494,6 +494,11 @@ body {
         transform: translateX(-50%) translateY(0);
     }
 
+            .task-card{
+    margin-right: auto;
+    margin-left: -50px;
+    width: 110%;
+}
 
     /* 4. CARDS E LISTAS */
     .dashboard-cards {
@@ -519,6 +524,11 @@ body {
         width: 100%;
         justify-content: center;
     }
+        .task-card{
+    margin-right: auto;
+    margin-left: -50px;
+    width: 100%;
+}
 
     .user-name {
         display: none; /* Mantém apenas o avatar para limpar o topo */
@@ -536,4 +546,55 @@ body {
         border-top: 1px solid #eee;
         padding-top: 10px;
     }
+}
+
+@media (max-width: 400px) {
+
+    body {
+        padding: 10px;
+    }
+
+    .container {
+        width: 100%;
+        padding: 10px;
+    }
+
+    h1, h2, h3 {
+        font-size: 18px;
+        text-align: center;
+    }
+
+    input, select, button {
+        width: 100%;
+        font-size: 14px;
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+
+    .task-card{
+    margin-right: auto;
+    margin-left: -50px;
+    width: 80%;
+}
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .table-container {
+        overflow-x: auto;
+    }
+
+    table {
+        font-size: 12px;
+        min-width: 500px;
+    }
+
+    .modal-content {
+        width: 95%;
+        padding: 15px;
+    }
+
 }
